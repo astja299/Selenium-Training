@@ -69,6 +69,41 @@ int zones_size =  zones_for_size.size();
     }
     }}
 
+    @Test
+    public void Task9_1() {
+        driver.get("http://localhost/litecart/admin/?app=geo_zones&doc=geo_zones");
+        driver.findElement(By.name("username")).sendKeys("admin");
+        driver.findElement(By.name("password")).sendKeys("admin");
+        driver.findElement(By.name("remember_me")).click();
+        driver.findElement(By.name("login")).click();
+
+
+
+        List <WebElement> geo = driver.findElements(By.cssSelector(".row"));
+        int geo_size = geo.size();
+
+        for (int j=0; j < geo_size; j++) {
+            List<WebElement> geos = driver.findElements(By.cssSelector(".row td > a"));
+            geos.get(2*j).click();
+
+            List<WebElement> listSelect = driver.findElements(By.cssSelector("#table-zones  td:nth-child(3) > select [selected=selected]"));
+
+            for (int i=0; i< listSelect.size()-1; i++){
+                String c = listSelect.get(i).getAttribute("textContent");
+         //       System.out.println(c);
+                String d = listSelect.get(i+1).getAttribute("textContent");
+         //       System.out.println(d);
+                assertTrue(compare (c,d));
+
+            }
+
+            driver.findElement(By.cssSelector("ul#box-apps-menu > li:nth-child(6)")).click();
+        }
+
+
+    }
+
+
 
     @After
     public void stop() {
